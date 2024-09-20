@@ -276,7 +276,7 @@ public class Registro_User extends javax.swing.JFrame {
     CAlumnos objetoAlumno = new CAlumnos();
     
     // Asume que el método InsertarAlumno recibe los datos del alumno
-    objetoAlumno.InsertarAlumno(txtUser_id,txtNombre,txtContrasena, txtCorreo,txtDocumento, txtTelefono, txtDireccion,Jc_EstadoUser); // Asegúrate de que este método existe y acepta estos parámetros
+    objetoAlumno.InsertarAlumno(txtUser_id,txtNombre,txtContrasena, txtCorreo,txtDocumento,txtRol,txtTelefono, txtDireccion,Jc_EstadoUser); // Asegúrate de que este método existe y acepta estos parámetros
 
     JOptionPane.showMessageDialog(this, "Usuario registrado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 

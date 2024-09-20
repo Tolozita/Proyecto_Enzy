@@ -4,6 +4,7 @@
  */
 package Vista.Admin;
 
+import Modelo.Controladora_logica;
 import Vista.Admin.EditUsers_Admin;
 import Vista.Login;
 import javax.swing.JOptionPane;
@@ -17,14 +18,12 @@ public class Admin_Home extends javax.swing.JFrame {
      private String userName;
      private String userDoc;
      
-     
-     public void setUserName(String userName) {
-        this.userName = userName;
-        txtAdmin1.setText(userName);
-    }
+     Controladora_logica controladora = new Controladora_logica();
      
          public void setUserDoc(String userDoc){
          this.userDoc = userDoc;
+         userName = controladora.getUserName(userDoc);
+         txtAdmin1.setText(userName);
          txtDoc.setText(userDoc);
      }
      
@@ -190,15 +189,9 @@ public class Admin_Home extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEdit_PetsActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        // TODO add your handling code here:
-                // TODO add your handling code here:
-            // Crea una nueva instancia de la ventana de Login
+
     Login login = new Login();
-    
-    // Hace visible la ventana de Login
     login.setVisible(true);
-    
-    // Opcionalmente, puedes cerrar la ventana actual si no deseas que el usuario vuelva a ella
     this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 

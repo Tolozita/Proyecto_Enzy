@@ -442,16 +442,6 @@ public class EditUsers_Admin extends javax.swing.JFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
  // Obtén el texto de los campos
-    // Obtén el texto de los campos
-    String user_id = txtUser_id.getText().trim();
-    String user_name = txtNombres.getText().trim();
-    String upwd = txtUPWD.getText().trim(); // Convierte el password a string y elimina espacios
-    String user_email = txtCorreo.getText().trim();
-    String user_doc = txtDocument.getText().trim();
-    String role_id = txtRol.getText().trim(); // Asigna directamente el número 2 a role_id
-    String telefono = txtTelefono.getText().trim();
-    String direccion = txtDireccion.getText().trim();
-    String estado = (String) Jc_EstadoUser.getSelectedItem(); // Obtén el estado del JComboBox
 
 
     // Valida todos los campos necesarios
@@ -465,7 +455,7 @@ public class EditUsers_Admin extends javax.swing.JFrame {
 
     // Si todas las validaciones pasan, guarda los datos
     CAlumnos objetoAlumno = new CAlumnos();
-    objetoAlumno.InsertarAlumno(txtUser_id,txtNombres,txtUPWD,txtCorreo,txtDocument,txtTelefono,txtDireccion,Jc_EstadoUser); // Pasa role_id como parámetro
+    objetoAlumno.InsertarAlumno(txtUser_id,txtNombres,txtUPWD,txtCorreo,txtDocument, txtRol,txtTelefono,txtDireccion,Jc_EstadoUser); // Pasa role_id como parámetro
     objetoAlumno.MostrarDatosUsuarios(tbTotalAlumnos);
 
     // Limpia los campos de texto
@@ -550,6 +540,7 @@ public class EditUsers_Admin extends javax.swing.JFrame {
         this.dispose();
         // Muestra la ventana de login
         Vista.Admin.Admin_Home loginWindow = new Vista.Admin.Admin_Home();
+        loginWindow.setUserDoc(userDoc);
         loginWindow.setVisible(true);
     }//GEN-LAST:event_btnSalirActionPerformed
 

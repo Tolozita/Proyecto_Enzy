@@ -154,7 +154,6 @@ public class Login extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Bienvenido Administrador", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             // Abre la vista de EditUsers_Admin y pasa el nombre, rol y documento
             Admin_Home formAdmin = new Admin_Home();
-            formAdmin.setUserName(nombre);
             formAdmin.setUserDoc(documento); // Pasar el número de documento aquí
             JOptionPane.showInternalMessageDialog(null,nombre+" "+documento);// Pasar el número de documento aquí
             formAdmin.setVisible(true);

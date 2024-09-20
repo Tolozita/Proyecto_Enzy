@@ -15,6 +15,8 @@ import javax.swing.JOptionPane;
 public class EditPets_Admin extends javax.swing.JFrame {
 
         Controladora_logica controladora = new Controladora_logica();
+        CAlumnos objetoAlumno = new CAlumnos();
+
     
     private String nombre;
     private String userDoc;
@@ -36,6 +38,9 @@ public class EditPets_Admin extends javax.swing.JFrame {
     this.userDoc = userDoc;
     this.setLocationRelativeTo(null);
     cargarDatosMascotas(this.userDoc);
+    txtPetID.setEnabled(false);
+    objetoAlumno.cargarDueños(JcDueñosPets); // Cargar los dueños al iniciar el formulario
+
     }
     
 
@@ -64,6 +69,22 @@ public class EditPets_Admin extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tbAdmin_Mascotas = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        txtPetID = new javax.swing.JTextField();
+        txtNombre = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        txtEspecie = new javax.swing.JTextField();
+        txtRaza = new javax.swing.JTextField();
+        txtEdad = new javax.swing.JTextField();
+        txtPeso = new javax.swing.JTextField();
+        txtColor = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        btnModificar_Pet = new javax.swing.JButton();
+        JcDueñosPets = new javax.swing.JComboBox<>();
         btnVolver = new javax.swing.JButton();
         btnAñadirMascota = new javax.swing.JButton();
 
@@ -132,7 +153,40 @@ public class EditPets_Admin extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tbAdmin_Mascotas);
 
-        jLabel2.setText("jLabel2");
+        jLabel2.setText("Mascota Seleccionada");
+
+        jLabel3.setText("Nombre");
+
+        txtPetID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPetIDActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setText("Especie");
+
+        jLabel5.setText("raza");
+
+        jLabel6.setText("edad");
+
+        jLabel7.setText("peso");
+
+        jLabel8.setText("color");
+
+        jLabel9.setText("Dueños");
+
+        btnModificar_Pet.setText("Modificar");
+        btnModificar_Pet.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificar_PetActionPerformed(evt);
+            }
+        });
+
+        JcDueñosPets.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JcDueñosPetsActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -140,11 +194,63 @@ public class EditPets_Admin extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 910, Short.MAX_VALUE))
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(43, 43, 43)
-                .addComponent(jLabel2)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(34, 34, 34)
+                                .addComponent(txtPetID, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(29, 29, 29)
+                                .addComponent(jLabel3))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(25, 25, 25)
+                                .addComponent(txtEspecie, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel4)
+                                .addGap(33, 33, 33)))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtRaza, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(20, 20, 20)
+                                .addComponent(jLabel5)))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(txtEdad, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtPeso, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addGap(51, 51, 51)
+                                .addComponent(jLabel7)))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(txtColor, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(45, 45, 45)
+                                .addComponent(jLabel8)))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(36, 36, 36)
+                                .addComponent(JcDueñosPets, 0, 202, Short.MAX_VALUE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnModificar_Pet))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(110, 110, 110)
+                                .addComponent(jLabel9)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -152,8 +258,27 @@ public class EditPets_Admin extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 377, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(43, 43, 43)
-                .addComponent(jLabel2)
-                .addContainerGap(100, Short.MAX_VALUE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel9))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtPetID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtEspecie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtRaza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtEdad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPeso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnModificar_Pet)
+                    .addComponent(JcDueñosPets, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(66, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -164,7 +289,8 @@ public class EditPets_Admin extends javax.swing.JFrame {
                 .addContainerGap(10, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -203,20 +329,23 @@ public class EditPets_Admin extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnAñadirMascota)
                     .addComponent(btnVolver))
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addGap(25, 25, 25))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(24, 24, 24)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(25, 25, 25)
                 .addComponent(btnVolver)
                 .addGap(28, 28, 28)
-                .addComponent(btnAñadirMascota))
+                .addComponent(btnAñadirMascota)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -224,15 +353,25 @@ public class EditPets_Admin extends javax.swing.JFrame {
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         // TODO add your handling code here:
-                this.dispose();
-        // Muestra la ventana de login
+       this.userDoc = txtDoc.getText().trim();
+                     
+        this.dispose();
         Vista.Admin.Admin_Home loginWindow = new Vista.Admin.Admin_Home();
+        loginWindow.setUserDoc(userDoc);
         loginWindow.setVisible(true);
     }//GEN-LAST:event_btnVolverActionPerformed
 
     private void tbAdmin_MascotasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbAdmin_MascotasMouseClicked
-        // TODO add your handling code here:
-        // Llama al método SeleccionarAlumno con los parámetros adecuado
+    objetoAlumno.SeleccionarMascota(
+        tbAdmin_Mascotas,
+        txtPetID,          // Campo para ID
+        txtNombre,     // Campo para User ID
+        txtEspecie,     // Campo para Nombres
+        txtRaza,    // Campo para Teléfono
+        txtEdad,   // Campo para Dirección
+        txtPeso,      // Campo para Correo
+        txtColor    // Campo para Documento  
+    );
     }//GEN-LAST:event_tbAdmin_MascotasMouseClicked
 
     private void btnAñadirMascotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirMascotaActionPerformed
@@ -250,6 +389,34 @@ public class EditPets_Admin extends javax.swing.JFrame {
         loginWindow.setVisible(true);
 
     }//GEN-LAST:event_btnAñadirMascotaActionPerformed
+
+    private void txtPetIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPetIDActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPetIDActionPerformed
+
+    private void btnModificar_PetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificar_PetActionPerformed
+        // TODO add your handling code here:
+         // Si todas las validaciones pasan, modifica los datos
+    CAlumnos objetoAlumno = new CAlumnos();
+    objetoAlumno.ModificarMascota(txtPetID,txtNombre,txtEspecie,txtRaza,txtEdad,txtPeso,txtColor,JcDueñosPets);
+    objetoAlumno.MostrarDatosMascotas_Admin(tbAdmin_Mascotas);
+
+
+        txtPetID.setText("");
+        txtNombre.setText("");
+        txtEspecie.setText("");
+        txtRaza.setText("");
+        txtEdad.setText("");
+        txtPeso.setText("");
+        txtColor.setText("");
+        JcDueñosPets.setSelectedIndex(-1); // Si quieres que el JComboBox no tenga ninguna selección
+
+                
+    }//GEN-LAST:event_btnModificar_PetActionPerformed
+
+    private void JcDueñosPetsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JcDueñosPetsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_JcDueñosPetsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -287,16 +454,32 @@ public class EditPets_Admin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> JcDueñosPets;
     private javax.swing.JButton btnAñadirMascota;
+    private javax.swing.JButton btnModificar_Pet;
     private javax.swing.JButton btnVolver;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tbAdmin_Mascotas;
     private javax.swing.JLabel txtAdmin_Name;
+    private javax.swing.JTextField txtColor;
     private javax.swing.JLabel txtDoc;
+    private javax.swing.JTextField txtEdad;
+    private javax.swing.JTextField txtEspecie;
+    private javax.swing.JTextField txtNombre;
+    private javax.swing.JTextField txtPeso;
+    private javax.swing.JTextField txtPetID;
+    private javax.swing.JTextField txtRaza;
     // End of variables declaration//GEN-END:variables
 }

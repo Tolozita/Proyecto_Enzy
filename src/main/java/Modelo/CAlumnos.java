@@ -102,8 +102,6 @@ public class CAlumnos {
     
     
     
-    
-    
 
     // Método para verificar si el número de documento ya está registrado
     public boolean documentExists(String documento) {
@@ -122,74 +120,83 @@ public class CAlumnos {
     }
 
     
-public void InsertarAlumno(JTextField txtUser_id, JTextField paraNombres, JTextField paraContrasenia, JTextField paraCorreos, JTextField paraDocumento, JTextField txtTelefono, JTextField txtDireccion, JComboBox<String> Jc_EstadoUser) {
-    // Obtener valores de los campos
+
+
+    public void InsertarAlumno(JTextField txtUser_id, JTextField paraNombres, JTextField paraContrasenia, JTextField paraCorreos, JTextField paraDocumento, JTextField txtRol, JTextField txtDireccion, JTextField txtRol, JComboBox<String> Jc_EstadoUser) {
+        
+        txtUser_id,txtNombres,txtUPWD,txtCorreo,txtDocument, txtRol,txtTelefono,txtDireccion,Jc_EstadoUser
+        
+ // Obtener valores de los campos
     String nombre = paraNombres.getText().trim();
     String contrasena = paraContrasenia.getText().trim();
     String correo = paraCorreos.getText().trim();
     String documento = paraDocumento.getText().trim();
     String telefono = txtTelefono.getText().trim();
     String direccion = txtDireccion.getText().trim();
+    String rol = txtRol.getText().trim();
+    
     String estado = (String) Jc_EstadoUser.getSelectedItem(); // Estado del JComboBox
-
+    
     // Validar campos vacíos
     if (nombre.isEmpty() || contrasena.isEmpty() || correo.isEmpty() || documento.isEmpty() || telefono.isEmpty() || direccion.isEmpty() || estado == null) {
         JOptionPane.showMessageDialog(null, "Todos los campos deben ser llenados.");
         return;
     }
-
+    
     // Preparar la consulta para la tabla `users`
-    String consultaUsers = "INSERT INTO users (user_doc, upwd, role_id, estado_user, user_name, user_phone, user_address, user_email) VALUES (?, ?, 2, ?, ?, ?, ?, ?)";
-
+    String consultaUsers = "INSERT INTO users (user_doc, upwd, role_id, estado_user, user_name, user_phone, user_address, user_email) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     // Preparar la consulta para la tabla `dueños`
     String consultaDueños = "INSERT INTO dueños (usuarioID) VALUES (?)";
-
+    
     try {
         CConexion objetoConexion = new CConexion();
         Connection conn = objetoConexion.estableceConexion();
+        
         if (conn == null) {
             JOptionPane.showMessageDialog(null, "No se pudo establecer conexión con la base de datos.");
             return;
         }
-
+        
         // Insertar en la tabla `users`
         PreparedStatement psUsers = conn.prepareStatement(consultaUsers, Statement.RETURN_GENERATED_KEYS);
         psUsers.setString(1, documento);
         psUsers.setString(2, contrasena);
-        psUsers.setString(3, estado);
-        psUsers.setString(4, nombre);
-        psUsers.setString(5, telefono);
-        psUsers.setString(6, direccion);
-        psUsers.setString(7, correo);
+        psUsers.setString(3, rol);
+        psUsers.setString(4, estado);
+        psUsers.setString(5, nombre);
+        psUsers.setString(6, telefono);
+        psUsers.setString(7, direccion);
+        psUsers.setString(8, correo);
         psUsers.executeUpdate();
-
+        
         // Recuperar el ID autogenerado
         ResultSet generatedKeys = psUsers.getGeneratedKeys();
         if (generatedKeys.next()) {
             int userId = generatedKeys.getInt(1);
-
-            // Insertar en la tabla `dueños`
-            PreparedStatement psDueños = conn.prepareStatement(consultaDueños);
-            psDueños.setInt(1, userId); // Usa el ID autogenerado
-
-            psDueños.executeUpdate();
-            psDueños.close();
-
+            
+            // Solo insertar en la tabla `dueños` si el rol es 2
+            if (rol.equals("2")) { // Asegúrate de que la comparación sea correcta
+                PreparedStatement psDueños = conn.prepareStatement(consultaDueños);
+                psDueños.setInt(1, userId); // Usa el ID autogenerado
+                psDueños.executeUpdate();
+                psDueños.close();
+            }
+            
             // Confirmación de la operación
             JOptionPane.showMessageDialog(null, "Datos del usuario guardados exitosamente.");
         } else {
             JOptionPane.showMessageDialog(null, "No se pudo obtener el ID del usuario.");
         }
-
+        
         // Cerrar el statement y la conexión
         psUsers.close();
         conn.close();
-
+        
     } catch (SQLException e) {
-        JOptionPane.showMessageDialog(null, "No se insertaron correctamente los datos del usuario, error:  " + e.getMessage());
+        JOptionPane.showMessageDialog(null, "No se insertaron correctamente los datos del usuario, error: " + e.getMessage());
         e.printStackTrace();
     }
-}
+    }
 
 
 
@@ -289,6 +296,7 @@ public void MostrarDatosMascotas_Admin(JTable TablaMascotas) {
     modelo.addColumn("Nombre_Mascota");
     modelo.addColumn("Especie");
     modelo.addColumn("Raza");
+    modelo.addColumn("Edad");
     modelo.addColumn("Peso");
     modelo.addColumn("Color");
     modelo.addColumn("id_dueño"); 
@@ -302,6 +310,7 @@ public void MostrarDatosMascotas_Admin(JTable TablaMascotas) {
                  "m.nombre AS Nombre_Mascota, " +
                  "m.especie AS Especie, " +
                  "m.raza AS Raza, " +
+                 "m.edad AS Edad, " +
                  "m.peso AS Peso, " +
                  "m.color AS Color, " +
                  "m.id_dueño AS id_dueño, " +
@@ -318,16 +327,17 @@ public void MostrarDatosMascotas_Admin(JTable TablaMascotas) {
         try (ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 // Crear un array con un elemento por cada columna definida
-                Object[] datos = new Object[8];  // 9 en total, ya que hay 9 columnas
+                Object[] datos = new Object[9];  // 9 en total, ya que hay 9 columnas
                 
                 datos[0] = rs.getString("Mascota_id");
                 datos[1] = rs.getString("Nombre_Mascota");
                 datos[2] = rs.getString("Especie");
                 datos[3] = rs.getString("Raza");
-                datos[4] = rs.getString("Peso");
-                datos[5] = rs.getString("Color");
-                datos[6] = rs.getString("id_dueño");
-                datos[7] = rs.getString("Nombre_dueño");
+                datos[4] = rs.getInt("Edad");
+                datos[5] = rs.getString("Peso");
+                datos[6] = rs.getString("Color");
+                datos[7] = rs.getString("id_dueño");
+                datos[8] = rs.getString("Nombre_dueño");
 
                 modelo.addRow(datos);
             }
@@ -351,6 +361,7 @@ public void MostrarDatosMascotas(JTable TablaMascotas, String userDoc) {
     modelo.addColumn("Pet_Name");
     modelo.addColumn("Especie");
     modelo.addColumn("Raza");
+    modelo.addColumn("Edad");
     modelo.addColumn("Peso");
     modelo.addColumn("Color");
     modelo.addColumn("id_dueño"); 
@@ -364,6 +375,7 @@ public void MostrarDatosMascotas(JTable TablaMascotas, String userDoc) {
                  "m.nombre AS Pet_Name, " +
                  "m.especie AS Especie, " +
                  "m.raza AS Raza, " +
+                 "m.edad AS Edad, " +
                  "m.peso AS Peso, " +
                  "m.color AS Color, " +
                  "m.id_dueño AS id_dueño, " +
@@ -388,10 +400,11 @@ public void MostrarDatosMascotas(JTable TablaMascotas, String userDoc) {
                 datos[1] = rs.getString("Pet_Name");
                 datos[2] = rs.getString("Especie");
                 datos[3] = rs.getString("Raza");
-                datos[4] = rs.getString("Peso");
-                datos[5] = rs.getString("Color");
-                datos[6] = rs.getString("id_dueño");
-                datos[7] = rs.getString("Nombre_dueño");
+                datos[4] = rs.getInt("Edad");
+                datos[5] = rs.getString("Peso");
+                datos[6] = rs.getString("Color");
+                datos[7] = rs.getString("id_dueño");
+                datos[8] = rs.getString("Nombre_dueño");
 
                 modelo.addRow(datos);
             }
@@ -568,7 +581,7 @@ public void MostrarDatosUsuarios(JTable tablaUsuarios) {
            + "u.upwd AS Contraseña "
            + "FROM users u "
            + "INNER JOIN dueños d ON u.user_id = d.UsuarioID "
-           + "WHERE u.role_id = 2 AND u.estado_user = 'Activo'";
+           + "WHERE u.role_id IN (1, 2) AND u.estado_user = 'Activo'";
     
     try (Connection conn = objetoConexion.estableceConexion();
          PreparedStatement ps = conn.prepareStatement(sql);
@@ -642,7 +655,31 @@ public void SeleccionarMascota_User(JTable paraTablaMascotas, JTextField txtId) 
         JOptionPane.showMessageDialog(null, "Error al seleccionar la fila: " + e.toString());
     }
 }
-   
+
+
+public void SeleccionarMascota(JTable paraTablaMascotas, JTextField txtMascota_Id, JTextField txtNombre, JTextField txtEspecie, JTextField txtRaza, JTextField txtEdad, JTextField txtPeso, JTextField txtColor) {
+    try {
+        // Obtener la fila seleccionada
+        int fila = paraTablaMascotas.getSelectedRow();
+
+        if (fila >= 0) {
+            // Obtener los valores de la fila seleccionada y asignarlos a los campos de texto en el orden deseado
+            txtMascota_Id.setText(paraTablaMascotas.getValueAt(fila, 0).toString());        // Asigna el ID
+            txtNombre.setText(paraTablaMascotas.getValueAt(fila, 1).toString());   // Asigna el User ID
+            txtEspecie.setText(paraTablaMascotas.getValueAt(fila, 2).toString());    // Asigna el Nombre
+            txtRaza.setText(paraTablaMascotas.getValueAt(fila, 3).toString());   // Asigna el Teléfono
+            txtEdad.setText(paraTablaMascotas.getValueAt(fila, 4).toString());  // Asigna la Dirección
+            txtPeso.setText(paraTablaMascotas.getValueAt(fila, 5).toString());     // Asigna el Correo
+            txtColor.setText(paraTablaMascotas.getValueAt(fila, 6).toString());   // Asigna el Documento
+        } else {
+            JOptionPane.showMessageDialog(null, "Fila no seleccionada");
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Error al seleccionar la fila: " + e.toString());
+    }
+}
+
    
 public void ModificarAlumnos(
         JTextField txtId,
@@ -709,6 +746,85 @@ public void ModificarAlumnos(
         JOptionPane.showMessageDialog(null, "No se modificó, error: " + e.toString());
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+public void ModificarMascota(
+        JTextField txtPetID, JTextField txtNombrePet, JTextField txtEspeciePet, JTextField txtRazaPet, JTextField txtEdadPet, JTextField txtPesoPet, JTextField txtColorPet, JComboBox<String> JcDueñosPets) {
+
+
+    // Obtener los valores de los campos
+    int petId = Integer.parseInt(txtPetID.getText());
+    String petName = txtNombrePet.getText();
+    String especie = txtEspeciePet.getText();
+    String raza = txtRazaPet.getText();
+    String edad = txtEdadPet.getText();
+    String peso = txtPesoPet.getText();
+    String color = txtColorPet.getText();
+    
+      // Extraer el ID del dueño seleccionado
+    String dueñoSeleccionado = (String) JcDueñosPets.getSelectedItem();
+    int dueño_id = Integer.parseInt(dueñoSeleccionado.substring(dueñoSeleccionado.lastIndexOf('(') + 1, dueñoSeleccionado.length() - 1));
+
+
+
+    CConexion objetoConexion = new CConexion();
+    
+ String consulta = "UPDATE mascotas SET "
+                         + "nombre = ?, "
+                         + "especie = ?, "
+                         + "raza = ?, "
+                         + "edad = ?, "
+                         + "peso = ?, "
+                         + "color = ?, "
+                         + "dueño_id = ?, "
+                         + "WHERE pet_id = ?";
+    
+    try (Connection conn = objetoConexion.estableceConexion();
+         PreparedStatement ps = conn.prepareStatement(consulta)) {
+
+        // Establecer los valores de los parámetros en el PreparedStatement
+        ps.setString(1, petName);        
+        ps.setString(2, especie);              
+        ps.setString(3, raza);           
+        ps.setString(4, edad);             
+        ps.setString(5, peso);         
+        ps.setString(6, color);         
+        ps.setInt(7, dueño_id);                    
+        ps.executeUpdate();
+        
+        JOptionPane.showMessageDialog(null, "Modificación exitosa");
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "No se modificó, error: " + e.toString());
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
    
